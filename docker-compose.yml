@@ -1,0 +1,33 @@
+# Versin de docker-compose utilise
+version: '3.3'
+# Construction des different service de l'application, la logique de l'infra
+services:
+    # Front-end 
+    website:
+        image: php:apache
+        volumes: 
+            - ./website/:/var/www/html
+        depends_on: 
+            - API
+        environment: 
+            - USERNAME=toto
+            - PASSWORD=python
+        ports: 
+            - "8080:80"
+        networks: 
+            - pozos_network
+        
+    API:
+        image: students:v1
+        volumes:
+            - ./simple_api/student_age.json:/data/student_age.json
+        ports:
+            - "5000:5000"
+        container_name: students_image_1
+        networks: 
+            - pozos_network
+# Creation d'un reseau pour isoler mes deux containers
+networks: 
+  pozos_network:
+        
+
